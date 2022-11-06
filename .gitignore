@@ -1,0 +1,9 @@
+terraform.tfvars
+*/terraform.tfvars
+.terraform
+.terraform/*
+*.lock.hcl
+*.backup
+mykey
+mykey.pub
+*.tfstate
