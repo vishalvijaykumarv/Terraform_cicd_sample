@@ -7,3 +7,4 @@ terraform.tfvars
 mykey
 mykey.pub
 *.tfstate
+*.info
