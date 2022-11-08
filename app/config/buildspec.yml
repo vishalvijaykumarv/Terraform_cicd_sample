@@ -3,7 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - docker login -u AWS -p $(aws ecr get-login-password --region $AWS_DEFAULT_REGION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      # - docker login -u AWS -p $(aws ecr get-login-password) --region $AWS_DEFAULT_REGION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - $(aws ecr get-login --no-include-email)
   build:
     commands:
       - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
@@ -14,6 +15,7 @@ phases:
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
       # create new task definition
+      - chmod +x ./create-new-task-def.sh
       - ./create-new-task-def.sh $IMAGE_REPO_NAME
 
 artifacts:
